@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>New Year Firework</title>
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      overflow: hidden;
+      height: 100vh;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #fireBtn {
+      position: absolute;
+      bottom: 100px;
+      padding: 15px 30px;
+      font-size: 20px;
+      background-color: crimson;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .firework {
+      position: absolute;
+      bottom: 100px;
+      width: 5px;
+      height: 20px;
+      background-color: yellow;
+      animation: shoot 1s linear forwards;
+    }
+
+    @keyframes shoot {
+      0% { bottom: 100px; }
+      100% { bottom: 80%; }
+    }
+
+    .explosion {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, orange, red, transparent);
+      opacity: 0;
+      animation: explode 1s ease-out forwards;
+    }
+
+    @keyframes explode {
+      0% { opacity: 0; transform: scale(0.2); }
+      50% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+
+    #greeting {
+      position: absolute;
+      top: 20%;
+      font-size: 30px;
+      text-align: center;
+      display: none;
+      animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="greeting">🎉 Happy Sinhala and Tamil New Year Everyone! 🎉</div>
+  <button id="fireBtn">Fire</button>
+  <footer>Made with sathminofc©</footer>
+
+  <!-- Whistle Sound -->
+  <audio id="whistle" src="https://www.soundjay.com/misc/sounds/whistle-01a.mp3"></audio>
+  <!-- Explosion Sound -->
+  <audio id="boom" src="https://www.soundjay.com/explosion/explosion-01.mp3"></audio>
+
+  <script>
+    const fireBtn = document.getElementById('fireBtn');
+    const greeting = document.getElementById('greeting');
+    const whistle = document.getElementById('whistle');
+    const boom = document.getElementById('boom');
+
+    fireBtn.addEventListener('click', () => {
+      whistle.play();
+
+      const firework = document.createElement('div');
+      firework.className = 'firework';
+      firework.style.left = Math.random() * window.innerWidth + 'px';
+
+      document.body.appendChild(firework);
+
+      setTimeout(() => {
+        firework.remove();
+
+        const explosion = document.createElement('div');
+        explosion.className = 'explosion';
+        explosion.style.left = firework.style.left;
+        explosion.style.bottom = '80%';
+
+        document.body.appendChild(explosion);
+        boom.play();
+
+        setTimeout(() => {
+          explosion.remove();
+          greeting.style.display = 'block';
+        }, 1000);
+
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
